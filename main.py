@@ -170,20 +170,16 @@ fifth_reading_entry.grid(row=8, column=1, padx=5, pady=5)
 def confirm_button_function():
 
     global get_date
-    get_date = date_entry.get()
-    return
+    get_date = date_sv.get()
 
     global get_culture_ID
-    get_culture_ID = culture_ID_entry.get()
-    return
+    get_culture_ID = culture_ID_sv.get()
 
     global get_bacteria
     get_bacteria = bacteria_sv.get()
-    return
 
     global get_medicine
     get_medicine = medicine_sv.get()
-    return
 
     global get_first
     try:
@@ -253,57 +249,26 @@ def confirm_button_function():
 b1 = Button(culture_information_frame, text="Confirm", command=confirm_button_function)
 b1.grid(row=9, column=1, padx=10, pady=10, sticky=N, columnspan=1)
 
-def first_save_button_function():
+def save_button_function():
 
-# Create a simple dialog***
+    save_file = simpledialog.askstring("Save Data", "What would you like to name your file?")
+    file_name = "{}.dat".format(save_file)
+    file = open(file_name, 'a')
+    file.write("{}\n".format(get_date))
+    file.write("{}\n".format(get_culture_ID))
+    file.write("{}\n".format(get_bacteria))
+    file.write("{}\n".format(get_medicine))
+    file.write("{}\n".format(get_first))
+    file.write("{}\n".format(get_second))
+    file.write("{}\n".format(get_third))
+    file.write("{}\n".format(get_fourth))
+    file.write("{}\n".format(get_fifth))
+    file.write("{}\n".format(rate_of_change))
+    file.close()
 
-# Creating a Pop Up Window for the New Save File
+# Setting up save button
 
-    save_window = Toplevel()
-    save_window.title('File Save')
-    save_window.geometry('350x120')
-
-# Save File Frame, Label + Entry Box
-
-    save_frame = LabelFrame(save_window)
-    save_frame.grid(row=0, column=0)
-    save_file = Label(save_frame, text='Enter the name of the file you wish to save this data to \n'
-                                        '(Entering a new file name will create a new file): ')
-    save_file.grid(row=0, column=0, sticky='NESW')
-    save_file_sv = StringVar()
-    save_file_entry = Entry(save_frame, textvariable=save_file_sv)
-    save_file_entry.grid(row=1, column=0, sticky='NESW')
-
-# Getting the Entry Box Data
-
-    global get_save_file
-    get_save_file = save_file_entry.get()
-
-    def second_save_button_function():
-
-# Creating a File + Saving Data to it
-
-        file_name = "{}.dat".format(get_save_file)
-        file = open(file_name, 'a')
-        file.write("{}\n".format(get_date))
-        file.write("{}\n".format(get_culture_ID))
-        file.write("{}\n".format(get_bacteria))
-        file.write("{}\n".format(get_medicine))
-        file.write("{}\n".format(get_first))
-        file.write("{}\n".format(get_second))
-        file.write("{}\n".format(rate_of_change))
-        file.close()
-
-    second_save_button_function()
-
-# Setting up Second save button
-
-    b6 = Button(save_window, text="Save", command=second_save_button_function)
-    b6.grid(row=2, column=0)
-
-# First save button
-
-b2 = Button(button_frame, text="Save", command=first_save_button_function)
+b2 = Button(button_frame, text="Save", command=save_button_function)
 b2.grid(row=1, column=0, padx=10, pady=10, sticky=NW)
 
 def linear_projection_button_function():
@@ -339,7 +304,7 @@ def add_data_button_function():
 
     new_medicine = simpledialog.askstring("Add Medicine", "What is your new Medicine?")
     file = open('Medicine.dat', 'a')
-    file.write('{}'.format(new_medicine))
+    file.write('{}\n'.format(new_medicine))
     file.close()
 
 # Add data button
