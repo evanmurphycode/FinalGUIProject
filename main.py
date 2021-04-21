@@ -6,11 +6,13 @@
 
 # ************* List of To-Do's ****************
 # - Create Menu Bar (started)
-# - Activate Save Function/Button (close to finished)
-# - Validate Morning, Evening readings and Rate of Change (started)
+# - Activate Save Function/Button (done)
+# - Validate Morning, Evening readings and Rate of Change (done)
 # - Activate Linear Projection Function/Button (done)
-# - Activate Add Data Function/Button (started)
-# - Make Output box bigger (done)
+# - Validate Save, Linear Projection, & Add Data Buttons?! ()
+# - Activate Add Data Function/Button (done)
+# - Format Output box bigger (started)
+# - Make it look pretty ()
 
 # Set up tkinter, ttk, messagebox, datetime
 
@@ -31,8 +33,9 @@ current_date = datetime.datetime.now()
 
 window = Tk()
 window.title("Viro Labs Vaccine Tracker")
-window.geometry("700x400")
+window.geometry("700x600")
 
+"""
 # Setting up the menu bar and options
 
 menu_bar = Menu(window)
@@ -46,6 +49,7 @@ def our_command():
 menu_file = Menu(menu_bar)
 menu_bar.add_cascade(label='file', menu=menu_file)
 menu_file.add_command(label='New...', command=our_command)
+"""
 
 # Loading bacteria.dat file
 
@@ -60,6 +64,7 @@ def load_all_bacteria():
     bacteria_list = file.readlines()
     file.close()
 
+    # If Bacteria.dat didn't exist before launching program, load default values
     if len(bacteria_list) < 5:
         with open('Bacteria.dat', 'w') as file:
             for item in bacteria_defaults:
@@ -82,6 +87,7 @@ def load_all_medicine():
     medicine_list = file.readlines()
     file.close()
 
+    # If Medicine.dat didn't exist before launching program, load default values
     if len(medicine_list) < 5:
         with open('Medicine.dat', 'w') as file:
             for item in medicine_defaults:
@@ -278,15 +284,14 @@ def linear_projection_button_function():
 # where b = (morning reading),
 # a = ((evening reading) - (morning reading))/12
 
-    x = np.linspace(-10,10,100)
-    a = ((get_second) - (get_first))/12
-    b = get_first
-    y = a*x + b
-    plt.plot(x, y, '-r', label='Rate of Change')
-    plt.title('Graph of Rate of Change')
-    plt.xlabel('x', color='#1C2833')
-    plt.ylabel('y', color='#1C2833')
+    x_coordinates = [0,12,24,36,48]
+    y_coordinates = [get_first, get_second, get_third, get_fourth, get_fifth]
+
+    plt.plot(x_coordinates, y_coordinates,'-Dm', label='Rate of Change')
+    plt.title('Linear Projection')
     plt.legend(loc='upper left')
+    plt.xlabel('Hours', color='#1C2833')
+    plt.ylabel('# of Bacteria', color='#1C2833')
     plt.grid()
     plt.show()
 
