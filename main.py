@@ -49,40 +49,47 @@ menu_file.add_command(label='New...', command=our_command)
 
 # Loading bacteria.dat file
 
-bacteria_list = ['Coccus', 'Bacillus', 'Spirillum', 'Rickettsia', 'Mycoplasma']
-
-def load_bacteria():
+def load_all_bacteria():
 
     file = open('Bacteria.dat', 'a')
     file.close()
 
-    bacteria_list = ['Coccus', 'Bacillus', 'Spirillum', 'Rickettsia', 'Mycoplasma']
-
-    with open('Bacteria.dat', 'w') as file:
-        for listitem in bacteria_list:
-            file.write('{}\n'.format(listitem))
+    bacteria_defaults = ['Coccus', 'Bacillus', 'Spirillum', 'Rickettsia', 'Mycoplasma']
 
     file = open('Bacteria.dat', 'r')
     bacteria_list = file.readlines()
     file.close()
 
-load_bacteria()
+    if len(bacteria_list) < 5:
+        with open('Bacteria.dat', 'w') as file:
+            for item in bacteria_defaults:
+                file.write('{}\n'.format(item))
+                bacteria_list.append(item)
+    return bacteria_list
+
+bacteria_menu_list = load_all_bacteria()
 
 # Loading medicine.dat file
 
-global medicine_list
-medicine_list = ['Control', 'Formula-FD102', 'Formula-FD201', 'Formula-FD202', 'Formula-FD505']
-
-def load_medicine():
+def load_all_medicine():
 
     file = open('Medicine.dat', 'a')
     file.close()
+
+    medicine_defaults = ['Control', 'Formula-FD102', 'Formula-FD201', 'Formula-FD202', 'Formula-FD505']
 
     file = open('Medicine.dat', 'r')
     medicine_list = file.readlines()
     file.close()
 
-load_medicine()
+    if len(medicine_list) < 5:
+        with open('Medicine.dat', 'w') as file:
+            for item in medicine_defaults:
+                file.write('{}\n'.format(item))
+                medicine_list.append(item)
+    return medicine_list
+
+medicine_menu_list = load_all_medicine()
 
 # Setting up frames
 
@@ -119,13 +126,13 @@ culture_ID_entry.grid(row=1, column=1)
 bacteria_label = Label(culture_information_frame, text="Bacteria")
 bacteria_label.grid(row=2, column=0, padx=5, pady=5)
 bacteria_sv = StringVar(culture_information_frame)
-bacteria_menu = OptionMenu(culture_information_frame, bacteria_sv, *bacteria_list)
+bacteria_menu = OptionMenu(culture_information_frame, bacteria_sv, *bacteria_menu_list)
 bacteria_menu.grid(row=2, column=1, padx=5, pady=5)
 
 medicine_label = Label(culture_information_frame, text="Medicine")
 medicine_label.grid(row=3, column=0, padx=5, pady=5)
 medicine_sv = StringVar(culture_information_frame)
-medicine_menu = OptionMenu(culture_information_frame, medicine_sv, *medicine_list)
+medicine_menu = OptionMenu(culture_information_frame, medicine_sv, *medicine_menu_list)
 medicine_menu.grid(row=3, column=1, padx=5, pady=5)
 
 first_reading = Label(culture_information_frame, text="First Reading (0hrs)")
@@ -312,82 +319,19 @@ b3.grid(row=1, column=1, padx=10, pady=10, sticky=NE)
 def add_data_button_function():
 
     new_bacteria = simpledialog.askstring("Add Bacteria", "What is your new Bacteria?")
-    new_bacteria_sv = StringVar()
-    print(new_bacteria_sv)
     file = open('Bacteria.dat', 'a')
-    get_bacteria = new_bacteria_sv.get()
-    file.write("{}\n".format(get_bacteria))
-    file.close()
-
-    """
-    new_medicine = simpledialog.askstring("Add Medicine", "What is your new Medicine?")
-    new_medicine_sv = StringVar()
-    file = open('Medicine.dat', 'a')
-    get_medicine = new_medicine_sv.get()
-    file.write('{}'.format(get_medicine))
-    file.close()
-    """
-
-"""
-# Setting up the add data window
-
-    add_data_window = Toplevel()
-    add_data_window.title('Add Data')
-    add_data_window.geometry('400x100')
-
-# Add data frame
-
-    add_data_frame = LabelFrame(add_data_window)
-    add_data_frame.grid(row=0, column=0)
-
-# Add bacteria label, entry box, and button
-
-    add_bacteria_label = Label(add_data_frame, text='Bacteria')
-    add_bacteria_label.grid(row=0, column=0)
-    global add_bacteria_sv
-    add_bacteria_sv = StringVar()
-    add_bacteria_entry = Entry(add_data_frame, textvariable=add_bacteria_sv)
-    add_bacteria_entry.grid(row=1, column=0)
-    b7 = Button(add_data_frame, text='Add New Bacteria', command=add_bacteria_function)
-    b7.grid(row=2, column=0)
-
-# Add medicine label, entry box, and button
-
-    add_medicine_label = Label(add_data_frame, text='Medicine')
-    add_medicine_label.grid(row=0, column=1)
-    global add_medicine_sv
-    add_medicine_sv = StringVar()
-    add_medicine_entry = Entry(add_data_frame, textvariable=add_medicine_sv)
-    add_medicine_entry.grid(row=1, column=1)
-    b8 = Button(add_data_frame, text='Add New Medicine', command=add_medicine_function)
-    b8.grid(row=2, column=1)
-
-# Add bacteria function
-
-def add_bacteria_function():
-
-    file = open('Bacteria.dat', 'a')
-    new_bacteria = add_bacteria_sv.get()
     file.write("{}\n".format(new_bacteria))
     file.close()
 
-    # *** bacteria_list.append(new_bacteria) ***
-
-# Add medicine button
-
-def add_medicine_function():
-
+    new_medicine = simpledialog.askstring("Add Medicine", "What is your new Medicine?")
     file = open('Medicine.dat', 'a')
-    new_medicine = add_medicine_sv.get()
-    file.write("{}\n".format(new_medicine))
+    file.write('{}'.format(new_medicine))
     file.close()
-    """
 
 # Add data button
 
 b4 = Button(button_frame, text="Add Data", command=add_data_button_function)
 b4.grid(row=2, column=0, padx=10, pady=10, sticky=SW)
-
 
 def exit_button_function():
     exit(0)
@@ -398,4 +342,3 @@ b5.grid(row=2, column=1, padx=10, pady=10, sticky=SE)
 # Set up main loop
 
 window.mainloop()
-
