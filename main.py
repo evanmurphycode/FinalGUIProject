@@ -168,49 +168,63 @@ fifth_reading_entry.grid(row=8, column=1, padx=5, pady=5)
 # Setting up buttons and their respective functions
 
 def confirm_button_function():
+
     global get_date
     get_date = date_entry.get()
+    return
+
     global get_culture_ID
     get_culture_ID = culture_ID_entry.get()
+    return
+
     global get_bacteria
     get_bacteria = bacteria_sv.get()
+    return
+
     global get_medicine
     get_medicine = medicine_sv.get()
+    return
 
     global get_first
     try:
         get_first = int(first_reading_entry.get())
     except:
         messagebox.showerror("Input Error", "First entry field must be provided.")
+        return
 
     global get_second
     try:
         get_second = int(second_reading_entry.get())
     except:
         messagebox.showerror("Input Error", "Second entry field must be provided.")
+        return
 
     global get_third
     try:
         get_third = int(third_reading_entry.get())
     except:
         messagebox.showerror("Input Error", "Third entry field must be provided.")
+        return
 
     global get_fourth
     try:
         get_fourth = int(fourth_reading_entry.get())
     except:
         messagebox.showerror("Input Error", "Fourth entry field must be provided.")
+        return
 
     global get_fifth
     try:
         get_fifth = int(fifth_reading_entry.get())
     except:
         messagebox.showerror("Input Error", "Fifth entry field must be provided.")
+        return
 
 # Validating Culture Information Entries
 
     if get_date == "" or get_culture_ID == "" or get_bacteria == "" or get_medicine == "":
         messagebox.showerror("Input Error", "All culture information fields must be provided.")
+        return
 
 # Calculating rate of change
 
