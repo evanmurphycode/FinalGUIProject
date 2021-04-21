@@ -5,14 +5,14 @@
 # Date: 04/12/2021
 
 # ************* List of To-Do's ****************
-# - Create Menu Bar (started)
+# - Create Menu Bar (not done)
 # - Activate Save Function/Button (done)
 # - Validate Morning, Evening readings and Rate of Change (done)
 # - Activate Linear Projection Function/Button (done)
-# - Validate Save, Linear Projection, & Add Data Buttons?! ()
+# - Validate Save, Linear Projection, & Add Data Buttons?! (not done)
 # - Activate Add Data Function/Button (done)
-# - Format Output box bigger (started)
-# - Make it look pretty ()
+# - Format Output box bigger (done)
+# - Make it look pretty (not done)
 
 # Set up tkinter, ttk, messagebox, datetime
 
@@ -20,7 +20,7 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
 from tkinter import simpledialog
-from tkinter.ttk import Combobox
+import tkinter.font as font
 import matplotlib.pyplot as plt
 import numpy as np
 import datetime
@@ -33,25 +33,9 @@ current_date = datetime.datetime.now()
 
 window = Tk()
 window.title("Viro Labs Vaccine Tracker")
-window.geometry("700x600")
+window.geometry("700x400")
 
-"""
-# Setting up the menu bar and options
-
-menu_bar = Menu(window)
-window.config(menu=menu_bar)
-
-# Creating menu items
-
-def our_command():
-    pass
-
-menu_file = Menu(menu_bar)
-menu_bar.add_cascade(label='file', menu=menu_file)
-menu_file.add_command(label='New...', command=our_command)
-"""
-
-# Loading bacteria.dat file
+# Loading Bacteria.dat file
 
 def load_all_bacteria():
 
@@ -74,7 +58,7 @@ def load_all_bacteria():
 
 bacteria_menu_list = load_all_bacteria()
 
-# Loading medicine.dat file
+# Loading Medicine.dat file
 
 def load_all_medicine():
 
@@ -100,19 +84,19 @@ medicine_menu_list = load_all_medicine()
 # Setting up frames
 
 culture_information_frame = LabelFrame(window, text="Culture Information")
-culture_information_frame.grid(row=0, column=0, padx=5, pady=5)
+culture_information_frame.grid(row=0, column=0, padx=5, pady=5, sticky=N)
 
-output_frame = LabelFrame(window, text="Output")
-output_frame.grid(row=0, column=1, padx=5, pady=5, columnspan=5)
+culture_readings_frame = LabelFrame(window, text="Culture Readings")
+culture_readings_frame.grid(row=0, column=1, padx=5, pady=5, sticky=N)
 
-lb = Listbox(output_frame, width=30)
-lb.grid(row=0, column=1)
+output_frame = LabelFrame(culture_information_frame, text="Output")
+output_frame.grid(row=5, column=0, padx=5, pady=5, columnspan=5, sticky=NW)
 
-confirm_button_frame = LabelFrame(window)
-confirm_button_frame.grid(row=6, column=0, padx=5, pady=5)
+lb = Listbox(output_frame, width=28)
+lb.grid(row=5, column=0, sticky=NW)
 
-button_frame = LabelFrame(window)
-button_frame.grid(row=6, column=1, padx=5, pady=5)
+button_frame = LabelFrame(culture_readings_frame)
+button_frame.grid(row=6, column=0, padx=5, pady=5, columnspan=2, sticky=NW)
 
 # Setting up labels and entry boxes - Culture information frame
 
@@ -141,35 +125,35 @@ medicine_sv = StringVar(culture_information_frame)
 medicine_menu = OptionMenu(culture_information_frame, medicine_sv, *medicine_menu_list)
 medicine_menu.grid(row=3, column=1, padx=5, pady=5)
 
-first_reading = Label(culture_information_frame, text="First Reading (0hrs)")
-first_reading.grid(row=4, column=0, padx=5, pady=5)
+first_reading = Label(culture_readings_frame, text="First Reading (0hrs)")
+first_reading.grid(row=0, column=0, padx=5, pady=5)
 first_reading_sv = StringVar()
-first_reading_entry = Entry(culture_information_frame, textvariable=first_reading_sv)
-first_reading_entry.grid(row=4, column=1, padx=5, pady=5)
+first_reading_entry = Entry(culture_readings_frame, textvariable=first_reading_sv)
+first_reading_entry.grid(row=0, column=1, padx=5, pady=5)
 
-second_reading = Label(culture_information_frame, text="Second Reading (12hrs)")
-second_reading.grid(row=5, column=0, padx=5, pady=5)
+second_reading = Label(culture_readings_frame, text="Second Reading (12hrs)")
+second_reading.grid(row=1, column=0, padx=5, pady=5)
 second_reading_sv = StringVar()
-second_reading_entry = Entry(culture_information_frame, textvariable=second_reading_sv)
-second_reading_entry.grid(row=5, column=1, padx=5, pady=5)
+second_reading_entry = Entry(culture_readings_frame, textvariable=second_reading_sv)
+second_reading_entry.grid(row=1, column=1, padx=5, pady=5)
 
-third_reading = Label(culture_information_frame, text="Third Reading (24hrs)")
-third_reading.grid(row=6, column=0, padx=5, pady=5)
+third_reading = Label(culture_readings_frame, text="Third Reading (24hrs)")
+third_reading.grid(row=2, column=0, padx=5, pady=5)
 third_reading_sv = StringVar()
-third_reading_entry = Entry(culture_information_frame, textvariable=third_reading_sv)
-third_reading_entry.grid(row=6, column=1, padx=5, pady=5)
+third_reading_entry = Entry(culture_readings_frame, textvariable=third_reading_sv)
+third_reading_entry.grid(row=2, column=1, padx=5, pady=5)
 
-fourth_reading = Label(culture_information_frame, text="Fourth Reading (36hrs)")
-fourth_reading.grid(row=7, column=0, padx=5, pady=5)
+fourth_reading = Label(culture_readings_frame, text="Fourth Reading (36hrs)")
+fourth_reading.grid(row=3, column=0, padx=5, pady=5)
 fourth_reading_sv = StringVar()
-fourth_reading_entry = Entry(culture_information_frame, textvariable=fourth_reading_sv)
-fourth_reading_entry.grid(row=7, column=1, padx=5, pady=5)
+fourth_reading_entry = Entry(culture_readings_frame, textvariable=fourth_reading_sv)
+fourth_reading_entry.grid(row=3, column=1, padx=5, pady=5)
 
-fifth_reading = Label(culture_information_frame, text="Fifth Reading (48hrs)")
-fifth_reading.grid(row=8, column=0, padx=5, pady=5)
+fifth_reading = Label(culture_readings_frame, text="Fifth Reading (48hrs)")
+fifth_reading.grid(row=4, column=0, padx=5, pady=5)
 fifth_reading_sv = StringVar()
-fifth_reading_entry = Entry(culture_information_frame, textvariable=fifth_reading_sv)
-fifth_reading_entry.grid(row=8, column=1, padx=5, pady=5)
+fifth_reading_entry = Entry(culture_readings_frame, textvariable=fifth_reading_sv)
+fifth_reading_entry.grid(row=4, column=1, padx=5, pady=5)
 
 # Setting up buttons and their respective functions
 
@@ -252,8 +236,8 @@ def confirm_button_function():
     lb.insert(END, "Calculated Rate of Change: {}".format(rate_of_change))
 
 
-b1 = Button(culture_information_frame, text="Confirm", command=confirm_button_function)
-b1.grid(row=9, column=1, padx=10, pady=10, sticky=N, columnspan=1)
+b1 = Button(culture_readings_frame, text="Confirm", command=confirm_button_function)
+b1.grid(row=5, column=1, padx=10, pady=10, sticky=NSEW, columnspan=1)
 
 def save_button_function():
 
@@ -278,11 +262,6 @@ b2 = Button(button_frame, text="Save", command=save_button_function)
 b2.grid(row=1, column=0, padx=10, pady=10, sticky=NW)
 
 def linear_projection_button_function():
-
-# Graphing equation =
-# y = ax + b
-# where b = (morning reading),
-# a = ((evening reading) - (morning reading))/12
 
     x_coordinates = [0,12,24,36,48]
     y_coordinates = [get_first, get_second, get_third, get_fourth, get_fifth]
