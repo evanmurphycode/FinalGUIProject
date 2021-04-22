@@ -125,35 +125,17 @@ medicine_sv = StringVar(culture_information_frame)
 medicine_menu = OptionMenu(culture_information_frame, medicine_sv, *medicine_menu_list)
 medicine_menu.grid(row=3, column=1, padx=5, pady=5)
 
-first_reading = Label(culture_readings_frame, text="First Reading (0hrs)")
-first_reading.grid(row=0, column=0, padx=5, pady=5)
-first_reading_sv = StringVar()
-first_reading_entry = Entry(culture_readings_frame, textvariable=first_reading_sv)
-first_reading_entry.grid(row=0, column=1, padx=5, pady=5)
+morning_reading = Label(culture_readings_frame, text="Morning Reading (6am)")
+morning_reading.grid(row=0, column=0, padx=5, pady=5)
+morning_reading_sv = StringVar()
+morning_reading_entry = Entry(culture_readings_frame, textvariable=morning_reading_sv)
+morning_reading_entry.grid(row=0, column=1, padx=5, pady=5)
 
-second_reading = Label(culture_readings_frame, text="Second Reading (12hrs)")
-second_reading.grid(row=1, column=0, padx=5, pady=5)
-second_reading_sv = StringVar()
-second_reading_entry = Entry(culture_readings_frame, textvariable=second_reading_sv)
-second_reading_entry.grid(row=1, column=1, padx=5, pady=5)
-
-third_reading = Label(culture_readings_frame, text="Third Reading (24hrs)")
-third_reading.grid(row=2, column=0, padx=5, pady=5)
-third_reading_sv = StringVar()
-third_reading_entry = Entry(culture_readings_frame, textvariable=third_reading_sv)
-third_reading_entry.grid(row=2, column=1, padx=5, pady=5)
-
-fourth_reading = Label(culture_readings_frame, text="Fourth Reading (36hrs)")
-fourth_reading.grid(row=3, column=0, padx=5, pady=5)
-fourth_reading_sv = StringVar()
-fourth_reading_entry = Entry(culture_readings_frame, textvariable=fourth_reading_sv)
-fourth_reading_entry.grid(row=3, column=1, padx=5, pady=5)
-
-fifth_reading = Label(culture_readings_frame, text="Fifth Reading (48hrs)")
-fifth_reading.grid(row=4, column=0, padx=5, pady=5)
-fifth_reading_sv = StringVar()
-fifth_reading_entry = Entry(culture_readings_frame, textvariable=fifth_reading_sv)
-fifth_reading_entry.grid(row=4, column=1, padx=5, pady=5)
+evening_reading = Label(culture_readings_frame, text="Evening Reading (6pm)")
+evening_reading.grid(row=1, column=0, padx=5, pady=5)
+evening_reading_sv = StringVar()
+evening_reading_entry = Entry(culture_readings_frame, textvariable=evening_reading_sv)
+evening_reading_entry.grid(row=1, column=1, padx=5, pady=5)
 
 # Setting up buttons and their respective functions
 
@@ -171,39 +153,18 @@ def confirm_button_function():
     global get_medicine
     get_medicine = medicine_sv.get()
 
-    global get_first
+    global get_morning
     try:
-        get_first = int(first_reading_entry.get())
+        get_morning = int(morning_reading_entry.get())
     except:
-        messagebox.showerror("Input Error", "First entry field must be provided.")
+        messagebox.showerror("Input Error", "Morning entry field must be provided.")
         return
 
-    global get_second
+    global get_evening
     try:
-        get_second = int(second_reading_entry.get())
+        get_evening = int(evening_reading_entry.get())
     except:
-        messagebox.showerror("Input Error", "Second entry field must be provided.")
-        return
-
-    global get_third
-    try:
-        get_third = int(third_reading_entry.get())
-    except:
-        messagebox.showerror("Input Error", "Third entry field must be provided.")
-        return
-
-    global get_fourth
-    try:
-        get_fourth = int(fourth_reading_entry.get())
-    except:
-        messagebox.showerror("Input Error", "Fourth entry field must be provided.")
-        return
-
-    global get_fifth
-    try:
-        get_fifth = int(fifth_reading_entry.get())
-    except:
-        messagebox.showerror("Input Error", "Fifth entry field must be provided.")
+        messagebox.showerror("Input Error", "Evening entry field must be provided.")
         return
 
 # Validating Culture Information Entries
@@ -215,25 +176,18 @@ def confirm_button_function():
 # Calculating rate of change
 
     global rate_of_change
-    first_rate_of_change = ((get_second - get_first)-1)
-    second_rate_of_change = ((get_third - get_second)-1)
-    third_rate_of_change = ((get_fourth - get_third)-1)
-    fourth_rate_of_change = ((get_fifth - get_fourth)-1)
-    rate_of_change = (first_rate_of_change + second_rate_of_change + third_rate_of_change + fourth_rate_of_change)/4
+    rate_of_change = ((get_evening - get_morning)-1)
 
 # Displaying results to listbox
 
     lb.delete(0, END)
-    lb.insert(END, "Date: {}".format(get_date))
-    lb.insert(END, "Culture ID: {}".format(get_culture_ID))
-    lb.insert(END, "Bacteria Type: {}".format(get_bacteria))
-    lb.insert(END, "Medicine Type: {}".format(get_medicine))
-    lb.insert(END, "First Population Reading: {}".format(get_first))
-    lb.insert(END, "Second Population Reading: {}".format(get_second))
-    lb.insert(END, "Third Population Reading: {}".format(get_third))
-    lb.insert(END, "Fourth Population Reading: {}".format(get_fourth))
-    lb.insert(END, "Fifth Population Reading: {}".format(get_fifth))
-    lb.insert(END, "Calculated Rate of Change: {}".format(rate_of_change))
+    lb.insert(END, "{}".format(get_date))
+    lb.insert(END, "{}".format(get_culture_ID))
+    lb.insert(END, "{}".format(get_bacteria))
+    lb.insert(END, "{}".format(get_medicine))
+    lb.insert(END, "{}".format(get_morning))
+    lb.insert(END, "{}".format(get_evening))
+    lb.insert(END, "{}".format(rate_of_change))
 
 
 b1 = Button(culture_readings_frame, text="Confirm", command=confirm_button_function)
@@ -248,11 +202,8 @@ def save_button_function():
     file.write("{}\n".format(get_culture_ID))
     file.write("{}\n".format(get_bacteria))
     file.write("{}\n".format(get_medicine))
-    file.write("{}\n".format(get_first))
-    file.write("{}\n".format(get_second))
-    file.write("{}\n".format(get_third))
-    file.write("{}\n".format(get_fourth))
-    file.write("{}\n".format(get_fifth))
+    file.write("{}\n".format(get_morning))
+    file.write("{}\n".format(get_evening))
     file.write("{}\n".format(rate_of_change))
     file.close()
 
@@ -263,14 +214,17 @@ b2.grid(row=1, column=0, padx=10, pady=10, sticky=NW)
 
 def linear_projection_button_function():
 
-    x_coordinates = [0,12,24,36,48]
-    y_coordinates = [get_first, get_second, get_third, get_fourth, get_fifth]
-
-    plt.plot(x_coordinates, y_coordinates,'-Dm', label='Rate of Change')
+    c = simpledialog.askinteger("1st X Value", "What is your first x value?")
+    d = simpledialog.askinteger("2nd X Value", "What is your second x value?")
+    x = np.linspace(c,d,100)
+    a = ((get_evening) - (get_morning))/12
+    b = get_morning
+    y = a*x + b
+    plt.plot(x, y, '-Dm', label='Rate of Change')
     plt.title('Linear Projection')
+    plt.xlabel('x', color='#1C2833')
+    plt.ylabel('y', color='#1C2833')
     plt.legend(loc='upper left')
-    plt.xlabel('Hours', color='#1C2833')
-    plt.ylabel('# of Bacteria', color='#1C2833')
     plt.grid()
     plt.show()
 
