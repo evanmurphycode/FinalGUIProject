@@ -30,10 +30,10 @@ current_date = datetime.datetime.now()
 #Basic code for a window
 window = Tk()
 window.title("Viro Labs Vaccine Tracker")
-window.geometry("710x540")
-window.resizable(0, 0)
+window.geometry("710x520")
+#window.resizable(0, 0)
 window.config(bg="#e9ecef")
-#Loading Bacteria.dat file
+# Loading Bacteria.dat file
 
 def load_all_bacteria():
 
@@ -90,13 +90,15 @@ culture_readings_frame = LabelFrame(culture_information_frame, text="Daily Cultu
 culture_readings_frame.grid(row=0, rowspan=4, column=3, padx=16, pady=8, sticky="EW")
 
 output_frame = LabelFrame(window, text="Output Window")
-output_frame.grid(row=2, column=0, padx=(16, 0), pady=8, sticky=W)
+output_frame.grid(row=2, column=0, padx=8, pady=8, sticky=W)
 
-lb = Listbox(output_frame, width=35)
-lb.grid(row=0, column=0, padx=8, pady=8, sticky="W")
+lb = Listbox(output_frame, width=37)
+lb.grid(row=2, column=0, columnspan=1, padx=8, pady=8, sticky="NW")
 
 button_frame = LabelFrame(window)
-button_frame.grid(row=2, column=1, padx=16, pady=16, sticky="NW")
+button_frame.grid(row=2, column=2, padx=16, pady=16, columnspan=2, sticky=NW)
+
+# Setting up labels and entry boxes - Culture information frame
 
 #Setting up labels and entry boxes - Culture information frame
 date = Label(culture_information_frame, text="Date")
