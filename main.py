@@ -33,8 +33,9 @@ current_date = datetime.datetime.now()
 
 window = Tk()
 window.title("Viro Labs Vaccine Tracker")
-window.geometry("700x400")
-
+window.geometry("710x520")
+#window.resizable(0, 0)
+window.config(bg="#e9ecef")
 # Loading Bacteria.dat file
 
 def load_all_bacteria():
@@ -84,58 +85,58 @@ medicine_menu_list = load_all_medicine()
 # Setting up frames
 
 culture_information_frame = LabelFrame(window, text="Culture Information")
-culture_information_frame.grid(row=0, column=0, padx=5, pady=5, sticky=N)
+culture_information_frame.grid(row=0, column=0, padx=16, pady=8)
 
-culture_readings_frame = LabelFrame(window, text="Culture Readings")
-culture_readings_frame.grid(row=0, column=1, padx=5, pady=5, sticky=N)
+culture_readings_frame = LabelFrame(culture_information_frame, text="Daily Culture Readings")
+culture_readings_frame.grid(row=0, rowspan=4, column=3, padx=16, pady=8, sticky="EW")
 
-output_frame = LabelFrame(culture_information_frame, text="Output")
-output_frame.grid(row=5, column=0, padx=5, pady=5, columnspan=5, sticky=NW)
+output_frame = LabelFrame(window, text="Output Window")
+output_frame.grid(row=2, column=0, padx=8, pady=8, sticky=W)
 
-lb = Listbox(output_frame, width=28)
-lb.grid(row=5, column=0, sticky=NW)
+lb = Listbox(output_frame, width=37)
+lb.grid(row=2, column=0, columnspan=1, padx=8, pady=8, sticky="NW")
 
-button_frame = LabelFrame(culture_readings_frame)
-button_frame.grid(row=6, column=0, padx=5, pady=5, columnspan=2, sticky=NW)
+button_frame = LabelFrame(window)
+button_frame.grid(row=2, column=2, padx=16, pady=16, columnspan=2, sticky=NW)
 
 # Setting up labels and entry boxes - Culture information frame
 
 date = Label(culture_information_frame, text="Date")
-date.grid(row=0, column=0)
+date.grid(row=0, column=0, padx=8, pady=(8, 0))
 date_sv = StringVar()
 date_entry = Entry(culture_information_frame, textvariable=date_sv)
-date_entry.grid(row=0, column=1)
+date_entry.grid(row=0, column=1, padx=8, pady=(8, 0))
 date_entry.insert(END, current_date.strftime("%Y/%m/%d"))
 
 culture_ID = Label(culture_information_frame, text="Culture ID")
-culture_ID.grid(row=1, column=0)
+culture_ID.grid(row=1, column=0, padx=8, pady=(8, 0))
 culture_ID_sv = StringVar()
 culture_ID_entry = Entry(culture_information_frame, textvariable=culture_ID_sv)
-culture_ID_entry.grid(row=1, column=1)
+culture_ID_entry.grid(row=1, column=1, padx=8, pady=(8, 0))
 
 bacteria_label = Label(culture_information_frame, text="Bacteria")
-bacteria_label.grid(row=2, column=0, padx=5, pady=5)
+bacteria_label.grid(row=2, column=0, padx=8, pady=(8, 0))
 bacteria_sv = StringVar(culture_information_frame)
 bacteria_menu = OptionMenu(culture_information_frame, bacteria_sv, *bacteria_menu_list)
-bacteria_menu.grid(row=2, column=1, padx=5, pady=5)
+bacteria_menu.grid(row=2, column=1, padx=8, pady=(8, 0))
 
 medicine_label = Label(culture_information_frame, text="Medicine")
-medicine_label.grid(row=3, column=0, padx=5, pady=5)
+medicine_label.grid(row=3, column=0, padx=8, pady=(8, 0))
 medicine_sv = StringVar(culture_information_frame)
 medicine_menu = OptionMenu(culture_information_frame, medicine_sv, *medicine_menu_list)
-medicine_menu.grid(row=3, column=1, padx=5, pady=5)
+medicine_menu.grid(row=3, column=1, padx=8, pady=(8, 0))
 
 morning_reading = Label(culture_readings_frame, text="Morning Reading (6am)")
-morning_reading.grid(row=0, column=0, padx=5, pady=5)
+morning_reading.grid(row=0, column=0, padx=8, pady=(8, 0))
 morning_reading_sv = StringVar()
 morning_reading_entry = Entry(culture_readings_frame, textvariable=morning_reading_sv)
-morning_reading_entry.grid(row=0, column=1, padx=5, pady=5)
+morning_reading_entry.grid(row=0, column=1, padx=8, pady=(8, 0))
 
 evening_reading = Label(culture_readings_frame, text="Evening Reading (6pm)")
-evening_reading.grid(row=1, column=0, padx=5, pady=5)
+evening_reading.grid(row=1, column=0, padx=8, pady=(8, 0))
 evening_reading_sv = StringVar()
 evening_reading_entry = Entry(culture_readings_frame, textvariable=evening_reading_sv)
-evening_reading_entry.grid(row=1, column=1, padx=5, pady=5)
+evening_reading_entry.grid(row=1, column=1, padx=8, pady=(8, 0))
 
 # Setting up buttons and their respective functions
 
@@ -245,10 +246,17 @@ def add_data_button_function():
     file.write('{}\n'.format(new_medicine))
     file.close()
 
-# Add data button
 
-b4 = Button(button_frame, text="Add Data", command=add_data_button_function)
-b4.grid(row=2, column=0, padx=10, pady=10, sticky=SW)
+# Add data button
+add_data_frame = LabelFrame(window)
+add_data_frame.grid(row=1, column=0)
+
+#just a label advising that you can add Bacterial cultures & new Medicine Types using the ADD Button that is set
+new_Bact_Med = Label(add_data_frame, text="Do you have any new Bacteria or Medicine Types to be added:")
+new_Bact_Med.grid(row=0, column=0, padx=(16, 28), pady=8, sticky="NW")
+
+b4 = Button(add_data_frame, text="Add Data", command=add_data_button_function, width=15)
+b4.grid(row=0, column=1, padx=(28, 8), pady=8, sticky="W")
 
 def exit_button_function():
     exit(0)
